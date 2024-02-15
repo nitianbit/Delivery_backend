@@ -41,9 +41,19 @@ export const createOrder = async (req, res) => {
             }
         });
 
+        const orderedItems = items?.map(orderItem => {
+            const menuItem = menuItems?.find(item => item?._id.toString() === orderItem?.menuItemId?.toString());
+            if (menuItem) {
+                const price = menuItem.price;
+                totalAmount += price * orderItem?.quantity;
+                return { ...orderItem, price };
+            }
+            return null;
+        }).filter(item => item !== null);
+
         const order = new OrderDetails({
             userId,
-            items,
+            items: orderedItems,
             totalAmount,
             address,
             name,
