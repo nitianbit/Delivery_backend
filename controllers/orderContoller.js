@@ -22,7 +22,7 @@ export const createOrder = async (req, res) => {
                 status: 400
             })
         }
-        
+
         if (!phoneNo) {
             return res.json({
                 data: {},
@@ -126,7 +126,7 @@ export const updateOrderStatus = async (req, res) => {
     try {
         const { id } = req.params;
         const { role } = req?.user
-        const { status, driverInfo } = req?.body;
+        const { status, driverInfo } = req.body;
 
         if (role !== 'admin') {
             return res.status(403).json({

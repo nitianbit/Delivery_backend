@@ -21,7 +21,6 @@ export const authMiddleware = (req, res, next) => {
     req.user = { userId, role, name };
     next();
   } catch (error) {
-    console.error(error);
     if (error instanceof jwt.TokenExpiredError) {
       return res.status(401).json({
         data: {},
