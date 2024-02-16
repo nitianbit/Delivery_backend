@@ -66,6 +66,16 @@ export const login = async (req, res) => {
       });
     }
 
+    const type = req?.headers?.["x-api-key"];
+
+    if (type === "web") {
+      user?.role != "admin"
+      return res.status(401).json({
+        data: {},
+        message: 'Unauthorized User',
+        status: 401
+      });
+    }
     const isPasswordValid = await comparePassword(password, user.password)
     if (!isPasswordValid) {
       return res.json({
