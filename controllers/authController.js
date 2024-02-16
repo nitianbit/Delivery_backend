@@ -68,8 +68,7 @@ export const login = async (req, res) => {
 
     // const type = req?.headers?.["x-api-key"];
 
-    if (type === "web") {
-      user?.role != "admin"
+    if (type === "web" && user?.role != "admin") {
       return res.status(401).json({
         data: {},
         message: 'Unauthorized User',
