@@ -15,9 +15,10 @@ import mongoose from "mongoose";
 
 //routers
 import authRouter from "./routers/authRouter.js";
-import menuItemsRouter from './routers/menuItemsRouter.js'
+import menuItemsRouter from './routers/menuItemsRouter.js';
 import userRouter from "./routers/userRouter.js";
 import orderRouter from './routers/orderRouter.js'
+import driverRouter from './routers/driverRouter.js'
 
 //public
 import { dirname } from "path";
@@ -53,6 +54,7 @@ app.use("/api/users", authMiddleware, userRouter);
 app.use("/api/menuItems", authMiddleware, menuItemsRouter);
 app.use("/api/order", authMiddleware, orderRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/driver",  authMiddleware, driverRouter);
 
 // app.get("*", (req, res) => {
 //   res.sendFile(path.resolve(__dirname, "./client/dist", "index.html"));
