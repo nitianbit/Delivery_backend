@@ -136,12 +136,30 @@ export const updateOrderStatus = async (req, res) => {
             });
         }
 
+
+
+        if (status == 'Confirmed' && driverInfo === undefined) {
+            return res.status(400).json({
+                data: {},
+                message: 'Please Assign the driver',
+                status: 400
+            });
+        }
+
+        if (status == 'Confirmed' && !time) {
+            return res.status(400).json({
+                data: {},
+                message: 'Please Assign delivery time',
+                status: 400
+            });
+        }
         const updateFields = {};
         if (status) updateFields.status = status;
 
-        if (status == 'Confirmed' && driverInfo !== undefined) updateFields.driverInfo = driverInfo;
-
-        if (time) updateFields.time = time;
+        if (status == "Confirmed") {
+            updateFields.driverInfo = driverInfo;
+            updateFields.time = time;
+        }
 
         const order = await OrderDetails.findByIdAndUpdate(id, updateFields, { new: true });
         if (!order) {
