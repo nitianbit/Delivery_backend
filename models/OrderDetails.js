@@ -14,8 +14,8 @@ const orderSchema = new mongoose.Schema({
     address: String,// Address of the order,
     name: String,
     phoneNo: String,
-    driverInfo: String,
-    time: Number
+    driverInfo: { type: mongoose.Schema.Types.ObjectId, ref: 'Driver'},
+    time: Number,
 
 });
 
