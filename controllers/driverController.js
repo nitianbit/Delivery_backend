@@ -74,7 +74,7 @@ export const addSingleDriver = async (req, res) => {
 export const updateSingleDriver = async (req, res) => {
     try {
         const { name, mob_no } = req.body;
-        const updateDriver = await DriverDetails.findById(req.params?.id, { name, mob_no });
+        const updateDriver = await DriverDetails.findByIdAndUpdate(req.params?.id, { name, mob_no }, { new: true });
         if (!updateDriver) {
             return res.json({
                 data: {},

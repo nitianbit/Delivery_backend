@@ -1,10 +1,10 @@
 import { Router } from 'express';
 const router = Router();
 
-import { getDriverDetails, updateSingleDriver, getSingleDriverDetails, addSingleDriver, deleteSingleDriver} from "../controllers/driverController.js";
+import { getDriverDetails, updateSingleDriver, getSingleDriverDetails, addSingleDriver, deleteSingleDriver } from "../controllers/driverController.js";
 router.get("/get", getDriverDetails);
 
-router.post("/add", addSingleDriver);
+router.post("/create", addSingleDriver);
 
 router.get("/get/:id", getSingleDriverDetails);
 

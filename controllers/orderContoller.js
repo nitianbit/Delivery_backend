@@ -148,7 +148,7 @@ export const updateOrderStatus = async (req, res) => {
 
 
 
-        if (status == 'Confirmed' && driverInfo === undefined) {
+        if (status == 'Confirm' && driverInfo === undefined) {
             return res.status(400).json({
                 data: {},
                 message: 'Please Assign the driver',
@@ -156,7 +156,7 @@ export const updateOrderStatus = async (req, res) => {
             });
         }
 
-        if (status == 'Confirmed' && !time) {
+        if (status == 'Confirm' && !time) {
             return res.status(400).json({
                 data: {},
                 message: 'Please Assign delivery time',
@@ -166,7 +166,7 @@ export const updateOrderStatus = async (req, res) => {
         const updateFields = {};
         if (status) updateFields.status = status;
 
-        if (status == "Confirmed") {
+        if (status == "Confirm") {
             updateFields.driverInfo = driverInfo;
             updateFields.time = time;
         }
