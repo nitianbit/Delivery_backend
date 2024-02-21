@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 const menuItemSchema = new mongoose.Schema({
     name: String,
-    price: String,
+    price: Number,
     description: String,
 });
 

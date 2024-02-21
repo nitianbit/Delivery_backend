@@ -55,7 +55,7 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, type = "user" } = req.body;
 
     const user = await User.findOne({ email });
     if (!user) {
@@ -66,6 +66,15 @@ export const login = async (req, res) => {
       });
     }
 
+    // const type = req?.headers?.["x-api-key"];
+
+    if (type === "web" && user?.role != "admin") {
+      return res.status(401).json({
+        data: {},
+        message: 'Unauthorized User',
+        status: 401
+      });
+    }
     const isPasswordValid = await comparePassword(password, user.password)
     if (!isPasswordValid) {
       return res.json({
@@ -90,3 +99,4 @@ export const login = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
+

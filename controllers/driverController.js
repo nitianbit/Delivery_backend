@@ -11,7 +11,7 @@ export const getDriverDetails = async (req, res) => {
     } catch (error) {
         console.log(error);
         res.json({
-            data:{},
+            data: {},
             message: 'Internal server error',
             status: 500
         })
@@ -19,36 +19,34 @@ export const getDriverDetails = async (req, res) => {
 }
 
 export const getSingleDriverDetails = async (req, res) => {
-        try {
-            console.log(req.params.id)
-            const driverDetails = await DriverDetails.findById(req.params.id);
-            if(!driverDetails) {
-                return res.json({
-                    data: {},
-                    message: 'Driver not found',
-                    status: 404
-                });
-            }
+    try {
+        const driverDetails = await DriverDetails.findById(req.params?.id);
+        if (!driverDetails) {
             return res.json({
-                data: driverDetails,
-                message: 'all driver details',
-                status: 200
-            })
-        } catch (error) {
-            console.log(error);
+                data: {},
+                message: 'Driver not found',
+                status: 404
+            });
+        }
+        return res.json({
+            data: driverDetails,
+            message: 'all driver details',
+            status: 200
+        })
+    } catch (error) {
+        console.log(error);
         res.json({
-            data:{},
+            data: {},
             message: 'Internal server error',
             status: 500
         })
-        }
+    }
 }
 
 export const addSingleDriver = async (req, res) => {
     try {
         const { name, mob_no } = req.body;
-
-        if(!name || !mob_no) {
+        if (!name || !mob_no) {
             return res.josn({
                 data: {},
                 message: 'please add all required fields',
@@ -56,7 +54,7 @@ export const addSingleDriver = async (req, res) => {
             });
         }
 
-        const driverDetail = new DriverDetails({name, mob_no})
+        const driverDetail = new DriverDetails({ name, mob_no })
         await driverDetail.save();
         return res.json({
             data: driverDetail,
@@ -73,12 +71,11 @@ export const addSingleDriver = async (req, res) => {
     }
 }
 
-export const updateSingleDriver =  async (req, res) => {
+export const updateSingleDriver = async (req, res) => {
     try {
         const { name, mob_no } = req.body;
-       
-        const updateDriver = await DriverDetails.findById(req.params.id, { name, mob_no });
-        if(!updateDriver) {
+        const updateDriver = await DriverDetails.findById(req.params?.id, { name, mob_no });
+        if (!updateDriver) {
             return res.json({
                 data: {},
                 message: 'Driver not found',
@@ -88,10 +85,9 @@ export const updateSingleDriver =  async (req, res) => {
         return res.json({
             data: updateDriver,
             message: 'Driver Details Updated Successfully',
-            status:200
+            status: 200
         });
     } catch (error) {
-        console.error(error);
         res.json({
             data: {},
             message: 'Internal server error',
@@ -103,12 +99,12 @@ export const updateSingleDriver =  async (req, res) => {
 export const deleteSingleDriver = async (req, res) => {
     try {
         console.log(req.params.id)
-        const deleteDriver = await DriverDetails.findByIdAndDelete(req.params.id)
-        if(!deleteDriver) {
+        const deleteDriver = await DriverDetails.findByIdAndDelete(req.params?.id)
+        if (!deleteDriver) {
             return res.json({
                 data: {},
                 message: 'Driver not found',
-                status:404
+                status: 404
             })
         }
         return res.json({
@@ -125,4 +121,3 @@ export const deleteSingleDriver = async (req, res) => {
         });
     }
 }
- 

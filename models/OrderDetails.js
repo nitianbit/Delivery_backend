@@ -5,6 +5,7 @@ const orderSchema = new mongoose.Schema({
     items: [{
         menuItemId: { type: mongoose.Schema.Types.ObjectId, ref: 'MenuItem' },
         quantity: Number,
+        price: Number,
         name: String
     }],
     totalAmount: Number,
@@ -14,8 +15,8 @@ const orderSchema = new mongoose.Schema({
     address: String,// Address of the order,
     name: String,
     phoneNo: String,
-    driverInfo: { type: mongoose.Schema.Types.ObjectId, ref: 'Driver'},
-    time: Number,
+    driverInfo: { type: mongoose.Schema.Types.ObjectId, ref: 'Driver' },
+    time: String,
 
 });
 

@@ -11,7 +11,7 @@ export const getCurrentUser = async (req, res) => {
     return res.json({
       data: {},
       message: 'user not found',
-      status: 404
+      status: 401
     });
   }
   const userWithoutPassword = user.toJSON();
