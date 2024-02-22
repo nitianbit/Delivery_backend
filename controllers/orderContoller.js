@@ -89,7 +89,7 @@ export const getOrderList = async (req, res) => {
         if (req.query?.status) {
             filter = { ...filter, status: req.query.status }
         }
-        orders = await OrderDetails.find(filter).sort({ _id: -1 });
+        orders = await OrderDetails.find(filter).populate('driverInfo').sort({ _id: -1 });
 
         res.status(201).json({
             data: orders,
