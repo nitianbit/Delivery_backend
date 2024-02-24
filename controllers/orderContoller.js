@@ -110,7 +110,7 @@ export const getSingleOrder = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const order = await OrderDetails.findById(id);
+        const order = await OrderDetails.findById(id).populate('driverInfo');
 
         if (!order) {
             return res.json({
@@ -171,7 +171,7 @@ export const updateOrderStatus = async (req, res) => {
             updateFields.deliveryTime = deliveryTime;
         }
 
-        const order = await OrderDetails.findByIdAndUpdate(id, updateFields, { new: true });
+        const order = await OrderDetails.findByIdAndUpdate(id, updateFields, { new: true }).populate('driverInfo');
         if (!order) {
             return res.json({
                 data: {},
