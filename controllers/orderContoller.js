@@ -58,7 +58,7 @@ export const createOrder = async (req, res) => {
             address,
             name,
             phoneNo,
-            time: Math.floor(Date.now())
+            time: Math.floor(Date.now() / 1000)
         });
         await order.save();
 
