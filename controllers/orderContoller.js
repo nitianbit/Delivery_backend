@@ -58,7 +58,7 @@ export const createOrder = async (req, res) => {
             address,
             name,
             phoneNo,
-            time: Math.floor(Date.now() / 1000)
+            time: Math.floor(Date.now())
         });
         await order.save();
 
@@ -136,7 +136,7 @@ export const updateOrderStatus = async (req, res) => {
     try {
         const { id } = req.params;
         const { role } = req?.user
-        const { status, driverInfo, time } = req?.body;
+        const { status, driverInfo, deliveryTime } = req?.body;
 
         if (role !== 'admin') {
             return res.status(403).json({
@@ -156,7 +156,7 @@ export const updateOrderStatus = async (req, res) => {
             });
         }
 
-        if (status == 'Confirm' && !time) {
+        if (status == 'Confirm' && !deliveryTime) {
             return res.status(400).json({
                 data: {},
                 message: 'Please Assign delivery time',
@@ -168,7 +168,7 @@ export const updateOrderStatus = async (req, res) => {
 
         if (status == "Confirm") {
             updateFields.driverInfo = driverInfo;
-            updateFields.time = time;
+            updateFields.deliveryTime = deliveryTime;
         }
 
         const order = await OrderDetails.findByIdAndUpdate(id, updateFields, { new: true });
