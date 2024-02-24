@@ -148,7 +148,7 @@ export const updateOrderStatus = async (req, res) => {
 
 
 
-        if (status == 'Confirm' && driverInfo === undefined) {
+        if (status == 'Confirm' && !driverInfo) {
             return res.status(400).json({
                 data: {},
                 message: 'Please Assign the driver',
