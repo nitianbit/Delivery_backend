@@ -4,6 +4,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 import cors from 'cors';
+import https from 'https'
 
 const app = express();
 
@@ -42,15 +43,15 @@ app.use(express.static(path.resolve(__dirname, "./client/dist")));
 app.use(express.json());
 app.use(cors());
 
-app.get("/", (req, res) => {
+app.get("/api/", (req, res) => {
   res.send("hello world");
 });
 
-app.get("/version", (req, res) => {
+app.get("/api/version", (req, res) => {
   res.send("1.1");
 });
 
-app.post("/", (req, res) => {
+app.post("/api", (req, res) => {
   console.log(req);
   res.json({ message: "data received", data: req.body });
 });
@@ -58,7 +59,7 @@ app.use("/api/users", authMiddleware, userRouter);
 app.use("/api/menuItems", authMiddleware, menuItemsRouter);
 app.use("/api/order", authMiddleware, orderRouter);
 app.use("/api/auth", authRouter);
-app.use("/api/driver",  authMiddleware, driverRouter);
+app.use("/api/driver", authMiddleware, driverRouter);
 
 // app.get("*", (req, res) => {
 //   res.sendFile(path.resolve(__dirname, "./client/dist", "index.html"));
