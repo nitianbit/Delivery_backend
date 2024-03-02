@@ -1,3 +1,4 @@
+import { now } from "mongoose";
 import MenuItems from "../models/MenuItems.js";
 import OrderDetails from "../models/OrderDetails.js";
 
@@ -5,7 +6,8 @@ import OrderDetails from "../models/OrderDetails.js";
 export const createOrder = async (req, res) => {
     try {
         const { userId, name } = req.user;
-        const { items, address, phoneNo } = req.body;
+        const { items, address, phoneNo, orderDate } = req.body;
+        const currentTime = now();
 
         if (items?.length == 0) {
             return res.json({
@@ -30,6 +32,13 @@ export const createOrder = async (req, res) => {
                 status: 400
             })
         }
+        if (orderDate && orderDate > currentTime + 864000) {
+            return res.json({
+                data: {},
+                message: "The order must be placed within the next 10 days.",
+                status: 400
+            })
+        }
 
         const menuItems = await MenuItems.find({ _id: { $in: items?.map(item => item?.menuItemId) } });
 
@@ -45,7 +54,11 @@ export const createOrder = async (req, res) => {
             const menuItem = menuItems?.find(item => item?._id.toString() === orderItem?.menuItemId?.toString());
             if (menuItem) {
                 const price = menuItem.price;
-                totalAmount += price * orderItem?.quantity;
+                const gst = (menuItem?.gst ?? 0) / 100;
+                const maxQuantity = menuItem?.maxQuantity ?? orderItem?.quantity
+                const maxQuantityALlowed = Math.min(maxQuantity, orderItem?.quantity);
+                totalAmount += price * maxQuantityALlowed;
+                totalAmount += (price * maxQuantityALlowed) * (gst);
                 return { ...orderItem, price };
             }
             return null;
@@ -58,7 +71,7 @@ export const createOrder = async (req, res) => {
             address,
             name,
             phoneNo,
-            time: Math.floor(Date.now() / 1000)
+            time: currentTime
         });
         await order.save();
 
@@ -89,6 +102,21 @@ export const getOrderList = async (req, res) => {
         if (req.query?.status) {
             filter = { ...filter, status: req.query.status }
         }
+        let time = null;
+        if (req.query?.from) {
+            time = { "$gte": req.query.from }
+        }
+        if (req.query?.till) {
+            if (time !== null) {
+                time = { ...time, "$lte": req.query.till }
+            } else {
+                time = { "$lte": req.query.till }
+            }
+        }
+        if (time) {
+            filter = { ...filter, time }
+        }
+        //TODO populate customer name also here for admin
         orders = await OrderDetails.find(filter).populate('driverInfo').sort({ _id: -1 });
 
         res.status(201).json({

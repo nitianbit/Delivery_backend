@@ -33,6 +33,7 @@ app.use(express.static(path.resolve(__dirname, "./public")));
 //middleware
 import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware.js";
 import { authMiddleware } from "./middleware/authMiddleware.js";
+import { pincodes } from "./utils/constants.js";
 
 
 // if (process.env.NODE_ENV === "development") {
@@ -54,6 +55,13 @@ app.get("/api/version", (req, res) => {
 app.post("/api", (req, res) => {
   console.log(req);
   res.json({ message: "data received", data: req.body });
+});
+app.get("/api/general/pincodes", (req, res) => {
+  return res.json({
+    data: pincodes,
+    message: 'Pincodes',
+    status: 200
+  });
 });
 app.use("/api/users", authMiddleware, userRouter);
 app.use("/api/menuItems", authMiddleware, menuItemsRouter);

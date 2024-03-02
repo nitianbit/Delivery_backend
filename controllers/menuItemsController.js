@@ -2,7 +2,7 @@ import MenuItem from "../models/MenuItems.js";
 
 export const createMenuItems = async (req, res) => {
     try {
-        const { name, price, description } = req.body;
+        const { name, price, description, maxQuantity = null, gst = null } = req.body;
 
         if (!name || !price || !description) {
             return res.json({
@@ -11,7 +11,10 @@ export const createMenuItems = async (req, res) => {
                 status: 400
             });
         }
-        const menuItem = new MenuItem({ name, price, description });
+        let menuItemToCreate = { name, price, description };
+        if (maxQuantity) menuItemToCreate = { ...menuItemToCreate, maxQuantity };
+        if (gst) menuItemToCreate = { ...menuItemToCreate, gst };
+        const menuItem = new MenuItem();
         await menuItem.save();
         return res.json({
             data: menuItem,

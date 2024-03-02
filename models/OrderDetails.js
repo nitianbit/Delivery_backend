@@ -10,7 +10,7 @@ const orderSchema = new mongoose.Schema({
     }],
     totalAmount: Number,
     paymentId: String,
-    time: { type: String },
+    time: { type: Number },
     isOrderConfirmed: { type: Boolean, default: false }, // New field to track order confirmation status
     status: { type: String, default: 'Pending' }, // Pending, Confirmed, Delivered, etc.
     address: String,// Address of the order,
