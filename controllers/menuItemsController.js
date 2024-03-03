@@ -14,7 +14,7 @@ export const createMenuItems = async (req, res) => {
         let menuItemToCreate = { name, price, description };
         if (maxQuantity) menuItemToCreate = { ...menuItemToCreate, maxQuantity };
         if (gst) menuItemToCreate = { ...menuItemToCreate, gst };
-        const menuItem = new MenuItem();
+        const menuItem = new MenuItem(menuitemToCreate);
         await menuItem.save();
         return res.json({
             data: menuItem,
