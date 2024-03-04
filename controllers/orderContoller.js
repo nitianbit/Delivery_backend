@@ -59,7 +59,7 @@ export const createOrder = async (req, res) => {
                 const maxQuantityALlowed = Math.min(maxQuantity, orderItem?.quantity);
                 totalAmount += price * maxQuantityALlowed;
                 totalAmount += (price * maxQuantityALlowed) * (gst);
-                return { ...orderItem, price };
+                return { ...orderItem, price,gst };
             }
             return null;
         }).filter(item => item !== null);
