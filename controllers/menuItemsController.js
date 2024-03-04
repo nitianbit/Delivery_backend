@@ -33,7 +33,7 @@ export const createMenuItems = async (req, res) => {
 
 export const getAllMenuItems = async (req, res) => {
     try {
-        const menuItems = await MenuItem.find().sort({ _id: -1 });
+        const menuItems = await MenuItem.find().sort({ _id: -1 }).lean();
         return res.json({
             data: menuItems,
             message: 'all menu items',

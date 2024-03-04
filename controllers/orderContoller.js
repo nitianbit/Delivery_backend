@@ -1,6 +1,6 @@
-import { now } from "mongoose";
 import MenuItems from "../models/MenuItems.js";
 import OrderDetails from "../models/OrderDetails.js";
+import { now } from '../utils/helper.js'
 
 
 export const createOrder = async (req, res) => {
@@ -117,7 +117,7 @@ export const getOrderList = async (req, res) => {
             filter = { ...filter, time }
         }
         //TODO populate customer name also here for admin
-        orders = await OrderDetails.find(filter).populate('driverInfo').sort({ _id: -1 });
+        orders = await OrderDetails.find(filter).populate('driverInfo').sort({ _id: -1 }).lean();
 
         res.status(201).json({
             data: orders,
