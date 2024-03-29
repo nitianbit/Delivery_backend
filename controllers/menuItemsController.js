@@ -76,8 +76,8 @@ export const getSingleMenuItem = async (req, res) => {
 
 export const updateSingleMenuItem = async (req, res) => {
     try {
-        const { name, price, description } = req.body;
-        const updatedMenuItem = await MenuItem.findByIdAndUpdate(req.params.id, { name, price, description }, { new: true });
+       const { name, price, description, gst, maxQuantity } = req.body;
+        const updatedMenuItem = await MenuItem.findByIdAndUpdate(req.params.id, { name, price, description, gst, maxQuantity }, { new: true });
         if (!updatedMenuItem) {
             return res.json({
                 data: {},
